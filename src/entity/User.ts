@@ -1,18 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm"
+import { Length } from "class-validator"
 
 @Entity()
+@Unique(["username", "email"])
 export class User {
 
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    firstName: string
+    @Length(5, 15)
+    username: string
 
     @Column()
-    lastName: string
+    password: string
 
     @Column()
-    age: number
+    email: string 
 
+    @Column({ default: "" })
+    image: string
 }
