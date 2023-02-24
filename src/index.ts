@@ -2,22 +2,20 @@ import dotenv from "dotenv"
 dotenv.config()
 import { AppDataSource } from "./data-source"
 import { User } from "./entity/User"
+import express, { Request, Response } from "express"
+import cors from "cors"
 
 AppDataSource.initialize().then(async () => {
-
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.username = "Mike"
-    user.email = "mike@gmail.com"
-    user.password = "123"
-    user.image = "some-image"
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
-
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
-
-    console.log("Here you can setup and run express / fastify / any other framework.")
-
+    console.log("Data Source has been initialized!")
 }).catch(error => console.log(error))
+
+const app = express()
+const PORT = process.env.PORT
+const corsOptions = {
+    origin: ["http://localhost:3000"]
+}
+
+app.use(cors(corsOptions))
+app.use(express.json())
+
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
