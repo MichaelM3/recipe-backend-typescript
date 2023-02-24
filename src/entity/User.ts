@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm"
-import { Length } from "class-validator"
+import { IsEmail, Length } from "class-validator"
 
 @Entity()
 @Unique(["username", "email"])
@@ -16,6 +16,7 @@ export class User {
     password: string
 
     @Column()
+    @IsEmail()
     email: string 
 
     @Column({ default: "" })
